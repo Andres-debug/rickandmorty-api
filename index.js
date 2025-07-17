@@ -1,18 +1,17 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
-const express = require('express');
+import express from 'express';
+import db from './models/index.js';
+import authRoutes from './routes/auth.routes.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const db = require('./models')
-const authRoutes = require('./routes/auth.routes')
+app.use(express.json());
+app.use('/api/auth', authRoutes);
 
-app.use(express.json())
-app.use('/api/auth',authRoutes);
-
-db.sequelize.sync({force:false}).then(()=>{
+db.sequelize.sync({ force: false }).then(() => {
     console.log('Base de Datos Conectada');
-    app.listen(PORT,()=>console.log(`Servidor corriendo
-        en http://localhost:${PORT}`))
-})
+    app.listen(PORT, () => console.log(`Servidor corriendo\n        en http://localhost:${PORT}`));
+});

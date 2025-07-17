@@ -1,5 +1,6 @@
-const {Sequelize} = require('sequelize')
-const config = require('../config/db.config')
+import { Sequelize } from 'sequelize';
+import config from '../config/db.config.js';
+import UserModel from './user.model.js';
 
 const sequelize = new Sequelize(
     config.database,
@@ -14,6 +15,6 @@ const sequelize = new Sequelize(
 const db = {};
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+db.User = UserModel(sequelize, Sequelize);
 
-db.User = require('./user.model')(sequelize,Sequelize);
-module.exports = db;
+export default db;

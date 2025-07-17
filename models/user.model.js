@@ -1,26 +1,22 @@
-const bcrypt = require('bcrypt');
-const { password } = require('../config/db.config');
+import bcrypt from 'bcrypt';
 
-
-module.exports = (sequelize,DataTypes)=>{
-
-    const User = sequelize.define('User',{
+export default (sequelize, DataTypes) => {
+    const User = sequelize.define('User', {
         username: {
             type: DataTypes.STRING,
             unique: true,
             allowNull: false
         },
-        password:{
+        password: {
             type: DataTypes.STRING,
-            allowNull:false,
+            allowNull: false,
         }
     });
 
-    User.beforeCreate(async(user)=>{
+    User.beforeCreate(async (user) => {
         const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(user.password,salt)
+        user.password = await bcrypt.hash(user.password, salt);
     });
 
     return User;
-
-}
+};
